@@ -8,7 +8,8 @@ scheduler = BackgroundScheduler(daemon=True)# the daemon=True parameter allows k
 scheduler.add_job(periodic_task,'interval',seconds=3,args=['Input to background task'])
 # print all jobs every 5   secnds
 scheduler.add_job(lambda : scheduler.print_jobs(),'interval',seconds=5)
-
+# using the cron trigger. Run every minute
+scheduler.add_job(periodic_task,'cron',minute='*',args=['Fancy function'])
 
 #start job
 scheduler.start()
