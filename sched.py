@@ -1,9 +1,16 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from flask import Flask
+from datetime import date, datetime
+
 def periodic_task(val):
     print(f'I am a periodic task with the input {val}')
 scheduler = BackgroundScheduler(daemon=True)# the daemon=True parameter allows killing the thread when main program exits
 # add job
+# date as a trigger using date only
+scheduler.add_job(periodic_task,'date',run_date=date(2020, 12, 3),args=['Date as the trigger'])
+# date as a trigger using date and time
+scheduler.add_job(periodic_task,'date',run_date=datetime(2020, 12, 3, 10, 27, 0),args=['Date as the trigger'])
+
 # run the provide function every minute
 scheduler.add_job(periodic_task,'interval',seconds=3,args=['Input to background task'])
 # print all jobs every 5   secnds
