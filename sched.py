@@ -9,7 +9,7 @@ scheduler = BackgroundScheduler(daemon=True)# the daemon=True parameter allows k
 # date as a trigger using date only
 scheduler.add_job(periodic_task,'date',run_date=date(2020, 12, 3),args=['Date as the trigger'])
 # date as a trigger using date and time
-scheduler.add_job(periodic_task,'date',run_date=datetime(2020, 12, 3, 10, 27, 0),args=['Date as the trigger'])
+scheduler.add_job(periodic_task,'date',run_date=datetime(2020, 12, 3, 10, 31, 0),args=['Date as the trigger'])
 
 # run the provide function every minute
 scheduler.add_job(periodic_task,'interval',seconds=3,args=['Input to background task'])
@@ -22,4 +22,4 @@ scheduler.add_job(periodic_task,'cron',minute='*',args=['Fancy function'])
 scheduler.start()
 app = Flask(__name__)
 if __name__ == "__main__":
-    app.run('0.0.0.0',port=5000)
+    app.run('0.0.0.0',port=5001)
