@@ -44,7 +44,7 @@ sched.add_job(job_function, 'cron', hour='*')
 
 Schedule a system maintenance script that runs hourly on the weekends from 1 AM to 5 AM
 ```python
-sched.add_job(maintenance_func, 'cron', day_of_week['sat','sun'],hour=1-5')
+sched.add_job(maintenance_func, 'cron', day_of_week=['sat','sun'],hour=1-5')
 ```
 
 Use combined triggers to generate new parameters eg,
@@ -99,4 +99,25 @@ sched.add_job(check_payment_due, 'cron', day='*', hour=1)
 ```
 
 A function that sends reminders and an invoice that payment is due.
-The trigger will be the same, only that this function
+The trigger will be the same, only that this function will be sending the notification when its 
+2 days to due date and 1 day to due date it sends the invoice.
+
+Monthly routine function that makes payments to vendors n your system. Lets say payments are made weekly on friday at 3 AM
+```python
+sched.add_job(disburse_payments_vendors, 'cron',week='*', hour=3)
+```
+Make monthly payments to suppliers at 3 AM
+```python
+sched.add_job(disburse_payments_suppliers, 'cron',monthly='*', hour=3)
+```
+
+To refine the above tasks, 
+Monthly payments
+```python
+sched.add_job(disburse_payments_vendors, 'cron',day='last fri', hour=3)
+```
+
+Weekly payments
+```python
+sched.add_job(disburse_payments_vendors, 'cron',day_of_week=['fri'], hour=3)
+```
