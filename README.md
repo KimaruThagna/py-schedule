@@ -9,15 +9,15 @@ at fixed intervals. eg every x minutes evey y hours etc
 Sample use cases include:
 Run a job every 4 hours
 ```python
-sched.add_job(function, 'interval', hours=4)
+scheduler_job.add_job(function, 'interval', hours=4)
 ```
 Give the job a bound usng start and end times such that the task is executed every X hours within this time frame
 ```python
-sched.add_job(function, 'interval', hours=4, start_date='2020-11-11 09:00:00', end_date='2021-01-25 11:00:00'
+scheduler_job.add_job(function, 'interval', hours=4, start_date='2020-11-11 09:00:00', end_date='2021-01-25 11:00:00'
 ```
 Run job every 2 weeks. To run the job monthly, set weeks=4
 ```python
-sched.add_job(function, 'interval', weeks=2)
+scheduler_job.add_job(function, 'interval', weeks=2)
 ```
 ## Cron Examples
 Used when you want to run a job periodically.
@@ -29,22 +29,22 @@ Some use cases include:
 Schedule a task to run during summer(june to august) and winter(December to february)
 on every 3rd friday at 2 AM, 3 AM, 4 AM and 5 AM
 ```python
-sched.add_job(job_function, 'cron', month='6-8,12,1-2', day='3rd fri', hour='2-5')
+scheduler_job.add_job(job_function, 'cron', month='6-8,12,1-2', day='3rd fri', hour='2-5')
 ```
 
 Schedule task to run every last friday of the month. This can be to pay salaries
 ```python
-sched.add_job(job_function, 'cron', day='last fri')
+scheduler_job.add_job(job_function, 'cron', day='last fri')
 ```
 
 Schedule task to run hourly. Can be a data scrapping and analysis function
 ```python
-sched.add_job(job_function, 'cron', hour='*')
+scheduler_job.add_job(job_function, 'cron', hour='*')
 ```
 
 Schedule a system maintenance script that runs hourly on the weekends from 1 AM to 5 AM
 ```python
-sched.add_job(maintenance_func, 'cron', day_of_week=['sat','sun'],hour=1-5')
+scheduler_job.add_job(maintenance_func, 'cron', day_of_week=['sat','sun'],hour=1-5')
 ```
 
 Use combined triggers to generate new parameters eg,
@@ -82,9 +82,9 @@ and have weekly triggers, eg every friday and monthly triggers eg every last sun
 from apscheduler.triggers.combining import OrTrigger
 from apscheduler.triggers.cron import CronTrigger
 # single monthly newsletter job
-sched.add_job(news_letter_send, 'cron', month='*')
+scheduler_job.add_job(news_letter_send, 'cron', month='*')
 # every month on specified day
-sched.add_job(news_letter_send, 'cron', day='first mon')
+scheduler_job.add_job(news_letter_send, 'cron', day='first mon')
 # combine weekly and monthly
 trigger = OrTrigger([CronTrigger(day_of_week='fri', hour=8),
                      CronTrigger(day='last fri', hour='7')])
@@ -95,7 +95,7 @@ A function to check if your users are due for payment of your SaaS.
 You would like this to run daily at a time when the traffic is not too much, lets say 1 AM
 If payment is due the function sends email
 ```python
-sched.add_job(check_payment_due, 'cron', day='*', hour=1)
+scheduler_job.add_job(check_payment_due, 'cron', day='*', hour=1)
 ```
 
 A function that sends reminders and an invoice that payment is due.
@@ -104,20 +104,20 @@ The trigger will be the same, only that this function will be sending the notifi
 
 Monthly routine function that makes payments to vendors n your system. Lets say payments are made weekly on friday at 3 AM
 ```python
-sched.add_job(disburse_payments_vendors, 'cron',week='*', hour=3)
+scheduler_job.add_job(disburse_payments_vendors, 'cron',week='*', hour=3)
 ```
 Make monthly payments to suppliers at 3 AM
 ```python
-sched.add_job(disburse_payments_suppliers, 'cron',monthly='*', hour=3)
+scheduler_job.add_job(disburse_payments_suppliers, 'cron',monthly='*', hour=3)
 ```
 
 To refine the above tasks, 
 Monthly payments
 ```python
-sched.add_job(disburse_payments_vendors, 'cron',day='last fri', hour=3)
+scheduler_job.add_job(disburse_payments_vendors, 'cron',day='last fri', hour=3)
 ```
 
 Weekly payments
 ```python
-sched.add_job(disburse_payments_vendors, 'cron',day_of_week=['fri'], hour=3)
+scheduler_job.add_job(disburse_payments_vendors, 'cron',day_of_week=['fri'], hour=3)
 ```
