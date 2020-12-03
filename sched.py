@@ -1,13 +1,17 @@
 from apscheduler.schedulers.background import BackgroundScheduler
-
+from flask import Flask
 def periodic_task(val):
     print(f'I am a periodic task with the input {val}')
-schedule = BackgroundScheduler(daemon=True)# the daemon=True parameter allows killing the thread when main program exits
+scheduler = BackgroundScheduler(daemon=True)# the daemon=True parameter allows killing the thread when main program exits
 # add job
-# print all jobs every 5   secnds
-schedule.add_job(lambda : schedule.print_jobs(),'interval',seconds=5)
 # run the provide function every minute
-schedule.add_job(periodic_task('Input to background task'),'interval',minutes=1)
+scheduler.add_job(periodic_task,'interval',seconds=3,args=['Input to background task'])
+# print all jobs every 5   secnds
+scheduler.add_job(lambda : scheduler.print_jobs(),'interval',seconds=5)
+
 
 #start job
-schedule.start()
+scheduler.start()
+app = Flask(__name__)
+if __name__ == "__main__":
+    app.run('0.0.0.0',port=5000)
